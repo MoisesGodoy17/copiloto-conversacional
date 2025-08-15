@@ -1,0 +1,4 @@
+env-api/
+.env
+vector_store/
+uploads/
