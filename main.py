@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 from pypdf import PdfReader
+import json
+import re
 import os
 
 # LangChain 0.3
@@ -77,17 +79,25 @@ def process_pdf(file_path):
         docs = [
             Document(page_content=chunk, metadata={"source": file_path}) for chunk in chunks
             ]
-        db.add_documents(docs)
+
+        topics = classify_documents(docs)  # Clasificar los chunks por temas
+        for doc in docs:
+            doc.metadata["topics"] = topics[0]
+
+        print(f"Clasificación de temas: {doc.metadata['topics']}")
+
+        db.add_documents(docs) # Almacena los chunks clasificados en el sistema
         
         print(f"Procesado exitosamente: {file_path} - {len(chunks)} chunks añadidos")
         
     except Exception as e:
         print(f"Error procesando {file_path}: {str(e)}")
         raise e
+    
 # -----------------------------
 # Comparaciones automáticas entre documentos
 # -----------------------------
-# Crear resumen
+# Crear resumen entre documentos ingresados en el sistema
 def create_summary(doc_names):
     summaries = []
     for doc_name in doc_names:
@@ -124,7 +134,31 @@ def compare_documents(doc_names):
 # -----------------------------
 # Clasificación por temas o mezcla de tópicos
 # -----------------------------
+# Función para clasificar documentos
+def classify_documents(chunks):
+    prompt = PromptTemplate.from_template("""
+        Analiza el siguiente texto y clasifícalo en una o más categorías temáticas
+        (ej: legal, financiero, técnico, recursos humanos, marketing, contratos, salud, educación).
+        Texto:
+        {text}
 
+        Responde SOLO en formato JSON, NO en MARKDOWN, con el campo "topics", ejemplo:
+        {{"topics": ["legal"]}}
+    """)
+
+    text_chunks = " ".join([chunk.page_content for chunk in chunks[:2]])  # Tomar los primeros 2 chunks para la clasificación
+    response = model.invoke([{"role": "user", "content": prompt.format(text=text_chunks)}])
+
+    raw_output = response.content.strip()
+
+    # Formatea documento (modelo retorna un markdown)
+    raw_output = re.sub(r"^```json\s*", "", raw_output)
+    raw_output = re.sub(r"^```", "", raw_output)
+    raw_output = re.sub(r"```$", "", raw_output)
+
+    topics = json.loads(raw_output)["topics"]
+
+    return topics
 
 # Prompt general del sistema (comportamiento del asistente)
 system_prompt = """Eres un asistente útil que responde preguntas basándose en el contenido de documentos PDF. 
@@ -224,10 +258,12 @@ def chat():
 
         response_text = result["result"]
         sources = [doc.metadata.get("source", "Desconocido") for doc in result.get("source_documents", [])]
+        topics = [doc.metadata.get("topics", "Desconocido") for doc in result.get("source_documents", [])]
 
         return jsonify({
             "response": response_text,
             "sources": list(set(sources)),  # Eliminar duplicados
+            "topics": list(set(topics))
         })
         
     except Exception as e:
