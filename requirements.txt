@@ -3,4 +3,5 @@ python-dotenv
 langchain
 langchain-google-genai
 langchain-chroma
+flask-cors
 pypdf

@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 from pypdf import PdfReader
+from flask_cors import CORS, cross_origin
 import json
 import re
 import os
@@ -24,6 +25,12 @@ load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env-api', '.en
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
 app = Flask(__name__)
+
+# -----------------------------
+# Configuración del Cors, permite peticiones del frontend
+# -----------------------------
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
+
 app.secret_key = os.getenv("SECRET_KEY", "clave_por_defecto")
 
 # -----------------------------
@@ -56,6 +63,12 @@ db = Chroma(
     persist_directory=VECTOR_DB_PATH, 
     embedding_function=embeddings
 )
+# -----------------------------
+# Contar documentos subidos
+# -----------------------------
+def get_documents_uploaded(path):
+    return os.listdir(path)
+    
 
 # -----------------------------
 # Leer documentos PDF
@@ -206,6 +219,9 @@ def compare_docs():
 @app.route("/upload", methods=["POST"])
 def upload_pdfs():
     try:
+        if len(get_documents_uploaded("uploads")) > 5:
+            return jsonify({"error": "Se ha alcanzado el límite de 5 documentos PDF."}), 400
+
         files = request.files.getlist("files")
         if not files or files[0].filename == '':
             return jsonify({"error": "No se proporcionaron archivos"}), 400
@@ -268,6 +284,15 @@ def chat():
         
     except Exception as e:
         return jsonify({"error": f"Error en chat: {str(e)}"}), 500
+
+# Obtiene los nombres de los documentos subidos en el sistema
+@app.route("/get_name_pdf", methods=["GET"])
+def get_name_pdf():
+    try:
+        documentos = get_documents_uploaded("uploads")
+        return jsonify({"documentos": documentos}), 200
+    except Exception as e:
+        return jsonify({"error": f"Error al obtener nombres de documentos: {str(e)}"}), 500
 
 @app.route("/", methods=["GET"])
 def home():
