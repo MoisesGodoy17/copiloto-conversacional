@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  height: 100vh; /* pantalla completa */
+}
+
+.sidebar {
+  flex: 3; /* 30% */
+  background-color: #181818;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.chat {
+  flex: 7; /* 70% */
+  padding: 10px;
+  box-sizing: border-box;
+}

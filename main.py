@@ -126,6 +126,9 @@ def create_summary(doc_names):
 
 # Comparar documentos y generar diferencias
 def compare_documents(doc_names):
+    for i in range(len(doc_names)):
+        doc_names[i] = "uploads\\" + doc_names[i]
+        
     texts = create_summary(doc_names)
 
     combined_text = "\n\n---\n\n".join(

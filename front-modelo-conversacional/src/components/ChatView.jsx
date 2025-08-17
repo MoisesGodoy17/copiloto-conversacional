@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SendQuery from "../services/SendQuery";
-import UploadFileView from "./UploadFileView";
+import '../styles/chat-view.css';
 
 function ChatView() {
     const [messages, setMessages] = useState([]);
@@ -31,26 +31,33 @@ function ChatView() {
     };
 
     return (
-        <div>
-            <UploadFileView />
-            <h1>Chat View</h1>
-            <ul>
-                {messages.map((msg, index) => (
-                    <li key={index}>
-                        <b>{msg.role === "user" ? "Tú:" : "Bot:"}</b> {msg.text}
-                    </li>
-                ))}
-            </ul>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Escribe un mensaje..."
-                />
-                <button type="submit">Enviar</button>
-            </form>
-        </div>
+        <div className="chat-container">
+  <h1>Chat View</h1>
+
+  <ul className="chat-messages">
+    {messages.map((msg, index) => (
+      <li
+        key={index}
+        className={msg.role === "user" ? "message user" : "message bot"}
+      >
+        <b>{msg.role === "user" ? "Tú:" : "Bot:"}</b> {msg.text}
+      </li>
+    ))}
+  </ul>
+
+  <div className="input-container">
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Escribe un mensaje..."
+      />
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+</div>
+
     );
 }
 export default ChatView;
