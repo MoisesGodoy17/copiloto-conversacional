@@ -57,6 +57,7 @@ function UploadFileView() {
             const res = await Compare_documents(selectedFiles)
             console.log("Respuesta comparación:", res);
             alert("Comparación enviada ✅");
+            alert(`Resultados: ${JSON.stringify(res)}`);
         } catch (error) {
             console.error("Error al enviar comparación:", error);
             alert("Error al enviar comparación ❌");
