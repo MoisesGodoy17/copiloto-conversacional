@@ -1,0 +1,33 @@
+.upload-container form {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 10px;
+}
+
+.upload-container form input[type="file"] {
+    flex: 1;
+    border: none;
+    color: white;
+    font-family: inherit;
+    font-weight: 500;
+}
+.upload-container form input[type="file"]::file-selector-button {
+    background-color: #d3d3d3;
+    color: black;
+    border-radius: 10px;
+    padding: 5 15px;
+    border: none;
+    height: 40px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+}
+.upload-container form button
+ {
+    border-radius: 10px;
+    color: white;
+    background-color: #383838;
+    padding: 0 15px;
+    height: 40px;
+}

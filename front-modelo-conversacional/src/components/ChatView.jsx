@@ -8,6 +8,11 @@ function ChatView() {
 
     const querySend = { input: query };
 
+    if (!messages.length) {
+        setMessages([{ role: "bot", text: 
+          "👋 ¡Hola! Bienvenido/a. Puedes subir hasta 5 archivos PDF y hacerme todas las preguntas que quieras sobre su contenido. Además, también puedes pedirme que compare los archivos que hayas subido." }]);
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!query.trim()) return;
@@ -32,7 +37,7 @@ function ChatView() {
 
     return (
         <div className="chat-container">
-  <h1>Chat View</h1>
+  <h1>Chat</h1>
 
   <ul className="chat-messages">
     {messages.map((msg, index) => (

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { UploadFile, GetUploadedFiles, Compare_documents } from "../services/UploadFile.js";
+import "../styles/upload-view.css"; // Asegúrate de tener este archivo CSS
 
 function UploadFileView() {
     const [file, setFile] = useState(null);
@@ -57,7 +58,7 @@ function UploadFileView() {
             const res = await Compare_documents(selectedFiles)
             console.log("Respuesta comparación:", res);
             alert("Comparación enviada ✅");
-            alert(`Resultados: ${JSON.stringify(res)}`);
+            alert(`Resultados: ${JSON.stringify(res.response)}`);
         } catch (error) {
             console.error("Error al enviar comparación:", error);
             alert("Error al enviar comparación ❌");
@@ -65,8 +66,8 @@ function UploadFileView() {
     };
 
     return (
-        <div>
-            <h1>Upload File View</h1>
+        <div className="upload-container">
+            <h1>Upload files</h1>
 
             {/* Formulario para subir */}
             <form onSubmit={handleSubmit}>
@@ -100,7 +101,8 @@ function UploadFileView() {
 
             {/* Botón para enviar archivos seleccionados */}
             {uploadedFiles.length > 0 && (
-                <button onClick={handleCompare} disabled={selectedFiles.length < 2}>
+                <button onClick={handleCompare} disabled={selectedFiles.length < 2}
+                style={{ dborderRadius: "10px", color: "white", backgroundColor: "#383838", padding: "0 15px", height: "40px" }}>
                     Comparar seleccionados
                 </button>
             )}

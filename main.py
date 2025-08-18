@@ -128,7 +128,7 @@ def create_summary(doc_names):
 def compare_documents(doc_names):
     for i in range(len(doc_names)):
         doc_names[i] = "uploads\\" + doc_names[i]
-        
+
     texts = create_summary(doc_names)
 
     combined_text = "\n\n---\n\n".join(
@@ -138,7 +138,8 @@ def compare_documents(doc_names):
     # Mensajes para el LLM
     messages = [
         SystemMessage(content=f"Compara los siguientes documentos y resalta diferencias clave y similitudes:\n\n{combined_text}"),
-        HumanMessage(content="Genera un resumen de las diferencias y similitudes encontradas.")
+        HumanMessage(content="Genera un resumen de las diferencias y similitudes encontradas. Quiero el texto generado" \
+        "lo entregues en un formato claro y conciso. EVITA USAR SALTOS DE LINEA ENTRE PÁRRAFOS COMO: \n\n ")
     ]
 
     # Ejecutar el modelo y guardar la respuesta
