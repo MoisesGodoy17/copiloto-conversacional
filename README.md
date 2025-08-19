@@ -29,7 +29,7 @@ cd copiloto-conversacional
 
 ## 📁 Preparación del ambiente 
 ### Creación de las variables de entorno
-En la ruta raíz del proyecto `copiloto-conversacional/`, crear una carpeta llamada env-api. Ahora en necesario crear el archivo de variable de entorno. Dentro de la carpeta `env-api/`, crear un archivo llamado `.env`.
+En la ruta raíz del proyecto `copiloto-conversacional/`, crear una carpeta llamada `env-api`. Ahora es necesario crear el archivo de la variable de entorno. Dentro de la carpeta `env-api/`, crear un archivo llamado `.env`.
 Una vez creado, abrir el archivo `.env` recién creado y agregar la siguiente configuración:
 ```shell
 GOOGLE_APPLICATION_CREDENTIALS=/app/env-api/gen-lang-client.json
