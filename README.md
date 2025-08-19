@@ -12,7 +12,7 @@ Incluye backend en **Flask** y frontend en **React**.
 - **Procesamiento de documentos:** PyPDF
 - **Framewrok** LangChain
 - **Vector DB:** Chroma DB  
-- **Modelo generativo:** Google Gemini (Gemini 2.0)  
+- **Modelo generativo:** Google Gemini 2.0 (`gemini-2.0-flash`)  
 - **Variables de entorno:** python-dotenv  
 - **Contenedores:** Docker y Docker Compose  
 
@@ -42,6 +42,7 @@ GOOGLE_APPLICATION_CREDENTIALS=/app/env-api/gen-lang-client.json
 2. **Crear/seleccionar cuenta de servicio**
    - Crear una nueva cuenta de servicio o seleccionar una existente
    - Asegurar que tenga permisos para usar Gemini API
+   - El servicio creado debe estar relacionado con Gemini Studio AI y usar el modelo `gemini-2.0-flash`
 
 3. **Generar clave JSON**
    - Ir a la pestaña **"Keys"**
