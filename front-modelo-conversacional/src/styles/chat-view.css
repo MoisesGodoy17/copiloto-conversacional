@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 98vh;   /* ocupa toda la altura */
-  width: 1000px;    /* 👈 ocupa todo el ancho de la ventana */
+  height: 98vh;
+  width: 1000px;
   margin: 0;
   padding: 0;
 }
@@ -12,7 +12,7 @@
     flex: 1;
     /* ocupa todo el espacio sobrante */
     overflow-y: auto;
-    /* scroll si hay muchos mensajes */
+    /* permite el desplazamiento vertical */
     padding: 10px;
     margin: 0;
     /* quita espacio extra */

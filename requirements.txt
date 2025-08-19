@@ -1,7 +1,8 @@
 flask
+flask-cors
 python-dotenv
-langchain
+langchain==0.3.27
 langchain-google-genai
 langchain-chroma
-flask-cors
+chromadb
 pypdf

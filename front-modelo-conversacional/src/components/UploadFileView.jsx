@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { UploadFile, GetUploadedFiles, Compare_documents } from "../services/UploadFile.js";
-import "../styles/upload-view.css"; // Asegúrate de tener este archivo CSS
+import "../styles/upload-view.css";
 
 function UploadFileView() {
     const [file, setFile] = useState(null);
     const [response, setResponse] = useState("");
     const [uploadedFiles, setUploadedFiles] = useState([]);
-    const [selectedFiles, setSelectedFiles] = useState([]); // ✅ Estado para checkboxes
+    const [selectedFiles, setSelectedFiles] = useState([]);
 
     useEffect(() => {
         const fetchUploadedFiles = async () => {
@@ -28,17 +28,23 @@ function UploadFileView() {
         formData.append("files", file);
 
         try {
+            if (uploadedFiles.length == 5) {
+                alert("Se ha alcanzado el límite de 5 archivos subidos ❌");
+                return;
+            }
             const res = await UploadFile(formData);
             setResponse(res);
             console.log("Archivo subido exitosamente:", res);
             alert("PDF subido con éxito ✅");
+            // Actualizar la lista de archivos subidos
+            setUploadedFiles([...uploadedFiles, file.name]);
         } catch (error) {
             console.error("Error al subir el archivo:", error);
             alert("Error al subir el PDF ❌");
         }
     };
 
-    // ✅ Manejar selección/deselección de archivos
+    // Manejar selección/deselección de archivos
     const handleCheckboxChange = (e, fileName) => {
         if (e.target.checked) {
             setSelectedFiles([...selectedFiles, fileName]);
@@ -47,7 +53,7 @@ function UploadFileView() {
         }
     };
 
-    // ✅ Enviar archivos seleccionados al servidor
+    // Enviar archivos seleccionados al servidor
     const handleCompare = async () => {
         if (selectedFiles.length < 2) {
             alert("Selecciona al menos 2 archivos para comparar ⚠️");
@@ -78,7 +84,7 @@ function UploadFileView() {
             {response && (
                 <div>
                     <h2>Respuesta del servidor:</h2>
-                    <pre>{JSON.stringify(response, null, 2)}</pre>
+                    <pre>{response.message}</pre>
                 </div>
             )}
 

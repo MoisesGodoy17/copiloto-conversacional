@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  backend:
+    build: .
+    container_name: flask_backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./vector_store:/app/vector_store
+      - ./env-api:/app/env-api
+    env_file:
+      - ./env-api/.env
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/env-api/gen-lang-client.json
+
+  frontend:
+    build: ./front-modelo-conversacional
+    container_name: react_frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend

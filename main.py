@@ -74,7 +74,7 @@ def get_documents_uploaded(path):
 # Leer documentos PDF
 # -----------------------------
 # Leer el pdf
-def process_pdf(file_path):
+def process_pdf(file_path, name):
     try:
         render = PdfReader(file_path)
         text = ""  # almacena el texto del pdf
@@ -90,7 +90,7 @@ def process_pdf(file_path):
 
         # Añadir los chunks a la base de datos
         docs = [
-            Document(page_content=chunk, metadata={"source": file_path}) for chunk in chunks
+            Document(page_content=chunk, metadata={"source": name}) for chunk in chunks
             ]
 
         topics = classify_documents(docs)  # Clasificar los chunks por temas
@@ -126,9 +126,6 @@ def create_summary(doc_names):
 
 # Comparar documentos y generar diferencias
 def compare_documents(doc_names):
-    for i in range(len(doc_names)):
-        doc_names[i] = "uploads\\" + doc_names[i]
-
     texts = create_summary(doc_names)
 
     combined_text = "\n\n---\n\n".join(
@@ -223,7 +220,7 @@ def compare_docs():
 @app.route("/upload", methods=["POST"])
 def upload_pdfs():
     try:
-        if len(get_documents_uploaded("uploads")) > 5:
+        if len(get_documents_uploaded("uploads")) > 4:
             return jsonify({"error": "Se ha alcanzado el límite de 5 documentos PDF."}), 400
 
         files = request.files.getlist("files")
@@ -236,13 +233,13 @@ def upload_pdfs():
             if file and file.filename.endswith('.pdf'):
                 file_path = os.path.join("uploads", file.filename)
                 file.save(file_path)
-                process_pdf(file_path)
+                process_pdf(file_path, file.filename)
                 processed_files.append(file.filename)
             else:
                 return jsonify({"error": f"Archivo {file.filename} no es un PDF válido"}), 400
         
         return jsonify({
-            "message": "Archivos procesados exitosamente", 
+            "message": "Archivo procesado exitosamente", 
             "processed_files": processed_files
         }), 200
         
