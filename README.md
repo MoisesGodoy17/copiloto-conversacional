@@ -23,7 +23,7 @@ Incluye backend en **Flask** y frontend en **React**.
 En la CMD copie el siguiente comando:
 ```shell
 git clone https://github.com/MoisesGodoy17/copiloto-conversacional.git
-cd copiloto-conversacionale 
+cd copiloto-conversacional
 ```
 ---
 
