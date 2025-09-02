@@ -27,7 +27,7 @@ steps:
 
 # Backend
 - task: Docker@2
-  displayName: "Build And Push frontend"
+  displayName: "Build And Push backend"
   inputs:
     containerRegistry: 'docker'
     repository: 'moisesgodoy17/back-copiloto-conversacional'
