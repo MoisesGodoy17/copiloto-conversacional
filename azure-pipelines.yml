@@ -19,3 +19,22 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
+# Backend
+- task: Docker@2
+  inputs:
+    containerRegistry: 'docker'
+    repository: 'moisesgodoy17/back-copiloto-conversacional'
+    command: 'buildAndPush'
+    Dockerfile: '/Dockerfile'
+    buildContext: 'backend'
+
+
+# Front
+- task: Docker@2
+  inputs:
+    containerRegistry: 'docker'
+    repository: 'moisesgodoy17/front-copiloto-conversacional'
+    command: 'buildAndPush'
+    Dockerfile: 'front-modelo-conversacional/Dockerfile'
+    buildContext: 'front'
