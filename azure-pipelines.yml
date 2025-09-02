@@ -20,21 +20,34 @@ steps:
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
 
+- pwsh: |
+    $SHORT = "$(Build.SourceVersion)".Substring(0,7)
+    Write-Host "##vso[task.setvariable variable=SHORT_SHA]$SHORT"
+  displayName: "Set SHORT_SHA"
+
 # Backend
 - task: Docker@2
+  displayName: "Build & Push backend"
   inputs:
     containerRegistry: 'docker'
     repository: 'moisesgodoy17/back-copiloto-conversacional'
     command: 'buildAndPush'
-    Dockerfile: '/Dockerfile'
+    Dockerfile: 'backend/Dockerfile'
     buildContext: 'backend'
+    tags: |
+      $(SHORT_SHA)
+      latest
 
 
 # Front
 - task: Docker@2
+  displayName: "Build & Push front"
   inputs:
     containerRegistry: 'docker'
     repository: 'moisesgodoy17/front-copiloto-conversacional'
     command: 'buildAndPush'
     Dockerfile: 'front-modelo-conversacional/Dockerfile'
-    buildContext: 'front'
+    buildContext: 'frontend'
+    tags: |
+      $(SHORT_SHA)
+      latest
