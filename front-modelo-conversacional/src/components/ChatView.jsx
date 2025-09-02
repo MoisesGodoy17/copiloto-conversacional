@@ -2,7 +2,7 @@ import { useState } from "react";
 import SendQuery from "../services/SendQuery";
 import '../styles/chat-view.css';
 
-function ChatView() {
+function ChatView(uploadMessage) {
     const [messages, setMessages] = useState([]);
     const [query, setQuery] = useState("");
 

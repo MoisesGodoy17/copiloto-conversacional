@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { UploadFile, GetUploadedFiles, Compare_documents } from "../services/UploadFile.js";
 import "../styles/upload-view.css";
 
+import ChatView from "./ChatView.jsx";
+
 function UploadFileView() {
     const [file, setFile] = useState(null);
     const [response, setResponse] = useState("");
@@ -64,7 +66,7 @@ function UploadFileView() {
             const res = await Compare_documents(selectedFiles)
             console.log("Respuesta comparación:", res);
             alert("Comparación enviada ✅");
-            alert(`Resultados: ${JSON.stringify(res.response)}`);
+            alert(`Resultados: ${res.response}`);
         } catch (error) {
             console.error("Error al enviar comparación:", error);
             alert("Error al enviar comparación ❌");
