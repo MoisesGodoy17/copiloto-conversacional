@@ -27,27 +27,26 @@ steps:
 
 # Backend
 - task: Docker@2
-  displayName: "Build & Push backend"
+  displayName: "Build And Push frontend"
   inputs:
     containerRegistry: 'docker'
     repository: 'moisesgodoy17/back-copiloto-conversacional'
     command: 'buildAndPush'
-    Dockerfile: 'backend/Dockerfile'
-    buildContext: 'backend'
+    Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+    buildContext: '$(Build.SourcesDirectory)'
     tags: |
       $(SHORT_SHA)
       latest
 
-
-# Front
+# Frontend
 - task: Docker@2
-  displayName: "Build & Push front"
+  displayName: "Build And Push frontend"
   inputs:
     containerRegistry: 'docker'
     repository: 'moisesgodoy17/front-copiloto-conversacional'
     command: 'buildAndPush'
-    Dockerfile: 'front-modelo-conversacional/Dockerfile'
-    buildContext: 'frontend'
+    Dockerfile: '$(Build.SourcesDirectory)/front-modelo-conversacional/Dockerfile'
+    buildContext: '$(Build.SourcesDirectory)/front-modelo-conversacional'
     tags: |
       $(SHORT_SHA)
       latest
