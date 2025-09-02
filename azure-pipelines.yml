@@ -20,7 +20,7 @@ steps:
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
 
-- pwsh: |
+- powershell: |
     $SHORT = "$(Build.SourceVersion)".Substring(0,7)
     Write-Host "##vso[task.setvariable variable=SHORT_SHA]$SHORT"
   displayName: "Set SHORT_SHA"
