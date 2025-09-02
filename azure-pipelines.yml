@@ -38,9 +38,11 @@ steps:
       $(SHORT_SHA)
       latest
 
+# Pipeline!
 # Frontend
 - task: Docker@2
   displayName: "Build And Push frontend"
+  displayName: "Pipeline automatico"
   inputs:
     containerRegistry: 'docker'
     repository: 'moisesgodoy17/front-copiloto-conversacional'
