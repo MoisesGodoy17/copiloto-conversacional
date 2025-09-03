@@ -25,7 +25,7 @@ steps:
     Write-Host "##vso[task.setvariable variable=SHORT_SHA]$SHORT"
   displayName: "Set SHORT_SHA"
 
-# Backend
+
 - task: Docker@2
   displayName: "Build And Push backend"
   inputs:
